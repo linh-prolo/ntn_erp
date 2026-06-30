@@ -107,7 +107,7 @@ try {
                 throw new RuntimeException('Dòng FGS ' . $fgs['fgs_no'] . ' không còn khả dụng để xuất');
             }
             if ($qtyExport > (float) $fgs['qty_remaining']) {
-                throw new RuntimeException('SL xuất vượt tồn còn lại của ' . $fgs['fgs_no']);
+                throw new RuntimeException('Số lượng xuất vượt tồn còn lại của ' . $fgs['fgs_no']);
             }
 
             $newExported = (float) $fgs['qty_exported'] + $qtyExport;
@@ -185,7 +185,7 @@ try {
             throw new RuntimeException('Dòng ' . $fgs['fgs_no'] . ' không còn khả dụng để xuất');
         }
         if ($qtyExport > (float) $fgs['qty_remaining']) {
-            throw new RuntimeException('SL xuất vượt tồn còn lại của ' . $fgs['fgs_no']);
+            throw new RuntimeException('Số lượng xuất vượt tồn còn lại của ' . $fgs['fgs_no']);
         }
     }
 

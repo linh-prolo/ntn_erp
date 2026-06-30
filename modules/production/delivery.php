@@ -142,7 +142,7 @@ function renderExportableItems(items) {
     }
     body.innerHTML = items.map(item => `
         <tr class="${item.fgs_type === 'defect' ? 'table-danger' : ''}">
-            <td class="text-center"><input type="checkbox" class="form-check-input export-item-check" value="${item.export_item_id}" aria-label="Select export item ${esc(item.export_no)}"></td>
+            <td class="text-center"><input type="checkbox" class="form-check-input export-item-check" value="${item.export_item_id}" aria-label="Select item from export ${esc(item.export_no)}"></td>
             <td>${esc(item.export_no)}</td>
             <td><span class="badge bg-primary">${esc(item.product_code)}</span><div class="small text-muted">${esc(item.description)}</div></td>
             <td>${item.fgs_type === 'defect' ? '<span class="badge bg-danger">Lỗi</span>' : '<span class="badge bg-success">HT</span>'}</td>

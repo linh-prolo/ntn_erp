@@ -122,7 +122,7 @@ try {
         }
 
         if (($qtyDone + $qtyDefect) > (float) $progress['qty_remaining']) {
-            throw new RuntimeException('SL hoàn thành + lỗi vượt quá số lượng còn lại');
+            throw new RuntimeException('Số lượng hoàn thành + lỗi vượt quá số lượng còn lại');
         }
 
         $fgsNumbers = [];
