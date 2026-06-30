@@ -136,6 +136,35 @@ function ensurePostCsrf(): void {
     }
 }
 
+function generateDocNo(PDO $pdo, string $type): string {
+    $today = date('Y-m-d');
+    $pdo->beginTransaction();
+    try {
+        $stmt = $pdo->prepare("
+            INSERT INTO document_sequences (doc_type, doc_date, last_seq)
+            VALUES (?, ?, 1)
+            ON DUPLICATE KEY UPDATE last_seq = last_seq + 1
+        ");
+        $stmt->execute([$type, $today]);
+
+        $stmt = $pdo->prepare("
+            SELECT last_seq
+            FROM document_sequences
+            WHERE doc_type = ? AND doc_date = ?
+        ");
+        $stmt->execute([$type, $today]);
+        $seq = (int) $stmt->fetchColumn();
+
+        $pdo->commit();
+        return $type . '-' . date('Ymd') . '-' . str_pad((string) $seq, 3, '0', STR_PAD_LEFT);
+    } catch (Throwable $e) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        throw $e;
+    }
+}
+
 // ---- Output escape ----
 function e($value): string {
     return htmlspecialchars((string) ($value ?? ''), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');

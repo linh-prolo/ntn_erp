@@ -142,13 +142,13 @@ elseif (isGroupActive(['/modules/users/index'])) $activeGroup = 'system';
           <i class="fas fa-industry"></i><span>Sản xuất</span></a></li>
         <li><a class="nav-link <?= isActive('/production/warehouse_in') ?>" href="/erp/modules/production/warehouse_in.php">
           <i class="fas fa-file-import"></i><span>Nhập kho NVL</span></a></li>
-        <li><a class="nav-link <?= isActive('/production/wo_processes') ?>" href="/erp/modules/production/wo_processes.php">
+        <li><a class="nav-link <?= isActive('/production/output') ?>" href="/erp/modules/production/output.php">
           <i class="fas fa-cogs"></i><span>Tiến độ gia công</span></a></li>
-        <li><a class="nav-link <?= isActive('/warehouse/warehouse_items') ?>" href="/erp/modules/warehouse/warehouse_items.php">
+        <li><a class="nav-link <?= isActive('/warehouse/finished_goods') ?>" href="/erp/modules/warehouse/finished_goods.php">
           <i class="fas fa-boxes"></i><span>Kho thành phẩm</span></a></li>
-        <li><a class="nav-link <?= isActive('/production/warehouse_out') ?>" href="/erp/modules/production/warehouse_out.php">
+        <li><a class="nav-link <?= isActive('/warehouse/export') ?>" href="/erp/modules/warehouse/export.php">
           <i class="fas fa-file-export"></i><span>Xuất kho</span></a></li>
-        <li><a class="nav-link <?= isActive('/production/deliveries') ?>" href="/erp/modules/production/deliveries.php">
+        <li><a class="nav-link <?= isActive('/production/delivery') ?>" href="/erp/modules/production/delivery.php">
           <i class="fas fa-truck"></i><span>Giao hàng</span></a></li>
       </ul>
     </li>
