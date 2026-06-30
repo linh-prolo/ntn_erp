@@ -122,7 +122,9 @@ try {
 
                 $pendingDeliveryStmt->execute([$fgsId, $deliveryId]);
                 $pendingCount = (int) $pendingDeliveryStmt->fetchColumn();
-                $newStatus = ((float) $fgs['qty_remaining'] <= 0 && $pendingCount === 0) ? 'delivered' : 'partial_export';
+                $newStatus = (float) $fgs['qty_remaining'] <= 0
+                    ? ($pendingCount === 0 ? 'delivered' : 'exported')
+                    : 'partial_export';
                 $fgsUpdateStmt->execute([$newStatus, $fgsId]);
             }
 
@@ -199,7 +201,9 @@ try {
 
             $pendingDeliveryStmt->execute([$fgsId, $id]);
             $pendingCount = (int) $pendingDeliveryStmt->fetchColumn();
-            $newStatus = ((float) $fgs['qty_remaining'] <= 0 && $pendingCount === 0) ? 'delivered' : 'partial_export';
+            $newStatus = (float) $fgs['qty_remaining'] <= 0
+                ? ($pendingCount === 0 ? 'delivered' : 'exported')
+                : 'partial_export';
             $fgsUpdateStmt->execute([$newStatus, $fgsId]);
         }
 

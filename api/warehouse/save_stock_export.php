@@ -111,6 +111,9 @@ try {
             }
 
             $newExported = (float) $fgs['qty_exported'] + $qtyExport;
+            if ($newExported > (float) $fgs['qty_in']) {
+                throw new RuntimeException('SL xuất cộng dồn vượt quá SL nhập của ' . $fgs['fgs_no']);
+            }
             $newRemaining = max(0, (float) $fgs['qty_remaining'] - $qtyExport);
             $newStatus = $newRemaining <= 0 ? 'exported' : 'partial_export';
 
@@ -252,6 +255,9 @@ try {
             }
 
             $newExported = (float) $fgs['qty_exported'] + $qtyExport;
+            if ($newExported > (float) $fgs['qty_in']) {
+                throw new RuntimeException('SL xuất cộng dồn vượt quá SL nhập của ' . $fgs['fgs_no']);
+            }
             $newRemaining = max(0, (float) $fgs['qty_remaining'] - $qtyExport);
             $newStatus = $newRemaining <= 0 ? 'exported' : 'partial_export';
             $updateStmt->execute([$newExported, $newRemaining, $newStatus, $fgsId]);
