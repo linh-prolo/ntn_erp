@@ -86,7 +86,13 @@ CREATE TABLE IF NOT EXISTS `stock_export_items` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 ALTER TABLE `deliveries`
-  ADD COLUMN IF NOT EXISTS `export_id` int(11) DEFAULT NULL AFTER `warehouse_out_id`;
+  ADD COLUMN IF NOT EXISTS `export_id` int(11) DEFAULT NULL AFTER `warehouse_out_id`,
+  ADD CONSTRAINT `fk_deliveries_export`
+    FOREIGN KEY (`export_id`) REFERENCES `stock_exports` (`id`)
+    ON DELETE SET NULL;
 
 ALTER TABLE `delivery_items`
-  ADD COLUMN IF NOT EXISTS `export_item_id` int(11) DEFAULT NULL AFTER `product_code_id`;
+  ADD COLUMN IF NOT EXISTS `export_item_id` int(11) DEFAULT NULL AFTER `product_code_id`,
+  ADD CONSTRAINT `fk_delivery_items_export_item`
+    FOREIGN KEY (`export_item_id`) REFERENCES `stock_export_items` (`id`)
+    ON DELETE SET NULL;

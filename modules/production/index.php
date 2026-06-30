@@ -95,7 +95,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/erp/includes/sidebar.php';
                             <td class="text-end text-warning fw-semibold"><?= number_format((float) $row['qty_remaining'], 3) ?></td>
                             <td>
                                 <div class="progress" style="height: 20px;">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: <?= $percent ?>%;" aria-valuenow="<?= $percent ?>" aria-valuemin="0" aria-valuemax="100"><?= $percent ?>%</div>
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: <?= $percent ?>%;" aria-valuenow="<?= $percent ?>" aria-valuemin="0" aria-valuemax="100" aria-label="Production progress: <?= $percent ?>% complete"><?= $percent ?>%</div>
                                 </div>
                             </td>
                         </tr>

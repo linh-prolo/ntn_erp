@@ -329,7 +329,7 @@ document.querySelectorAll('.btn-detail').forEach(btn => {
                                 <div class="small text-success">HT: ${fmtQty(log.qty_done)} · Lỗi: ${fmtQty(log.qty_defect)}</div>
                                 <div class="small text-muted">${esc(log.note || '—')}</div>
                             </div>
-                            ${canDeleteLogs && index === 0 ? `<button class="btn btn-sm btn-outline-danger btn-delete-log" data-id="${log.id}"><i class="fas fa-trash"></i></button>` : ''}
+                            ${canDeleteLogs && index === 0 ? `<button class="btn btn-sm btn-outline-danger btn-delete-log" data-id="${log.id}" aria-label="Delete log"><i class="fas fa-trash"></i></button>` : ''}
                         </div>
                     </div>`).join('')}</div>` : '<div class="text-muted small">Chưa có log nào.</div>';
 

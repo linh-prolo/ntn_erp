@@ -61,7 +61,7 @@ $statusLabels = [
             <p class="text-muted mb-0">Theo dõi toàn bộ hàng hoàn thành và hàng lỗi phát sinh từ sản xuất</p>
         </div>
         <div class="text-end small">
-            <div><span class="badge bg-warning text-dark">Pending</span> <?= number_format($pendingTotal, 3) ?></div>
+            <div><span class="badge bg-warning text-dark">Pending Export</span> <?= number_format($pendingTotal, 3) ?></div>
             <div><span class="badge bg-danger">Defect</span> <?= number_format($defectTotal, 3) ?></div>
         </div>
     </div>
