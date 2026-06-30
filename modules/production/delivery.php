@@ -124,6 +124,15 @@ include $_SERVER['DOCUMENT_ROOT'] . '/erp/includes/sidebar.php';
 const csrfToken = <?= json_encode($csrf) ?>;
 function postForm(url, formData) { return fetch(url, { method: 'POST', body: formData }).then(r => r.json()); }
 function fmtQty(value) { return Number(value || 0).toLocaleString('vi-VN', { minimumFractionDigits: 0, maximumFractionDigits: 3 }); }
+function esc(value) {
+    return String(value ?? '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    }[char]));
+}
 
 function renderExportableItems(items) {
     const body = document.getElementById('deliveryItemsBody');
@@ -134,8 +143,8 @@ function renderExportableItems(items) {
     body.innerHTML = items.map(item => `
         <tr class="${item.fgs_type === 'defect' ? 'table-danger' : ''}">
             <td class="text-center"><input type="checkbox" class="form-check-input export-item-check" value="${item.export_item_id}"></td>
-            <td>${item.export_no}</td>
-            <td><span class="badge bg-primary">${item.product_code}</span><div class="small text-muted">${item.description}</div></td>
+            <td>${esc(item.export_no)}</td>
+            <td><span class="badge bg-primary">${esc(item.product_code)}</span><div class="small text-muted">${esc(item.description)}</div></td>
             <td>${item.fgs_type === 'defect' ? '<span class="badge bg-danger">Lỗi</span>' : '<span class="badge bg-success">HT</span>'}</td>
             <td class="text-end fw-semibold">${fmtQty(item.qty_export)}</td>
         </tr>`).join('');

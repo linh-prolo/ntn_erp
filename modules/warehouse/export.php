@@ -138,6 +138,15 @@ const detailModal = new bootstrap.Modal(document.getElementById('modalExportDeta
 
 function fmtQty(value) { return Number(value || 0).toLocaleString('vi-VN', { minimumFractionDigits: 0, maximumFractionDigits: 3 }); }
 function postForm(url, formData) { return fetch(url, { method: 'POST', body: formData }).then(r => r.json()); }
+function esc(value) {
+    return String(value ?? '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    }[char]));
+}
 
 function buildExportItems(items) {
     const body = document.getElementById('fgsTableBody');
@@ -147,8 +156,8 @@ function buildExportItems(items) {
     }
     body.innerHTML = items.map(item => `
         <tr class="${item.type === 'defect' ? 'table-danger' : ''}">
-            <td>${item.fgs_no}<div class="small text-muted">${item.source_date}</div></td>
-            <td><span class="badge bg-primary">${item.product_code}</span><div class="small text-muted">${item.description}</div></td>
+            <td>${esc(item.fgs_no)}<div class="small text-muted">${esc(item.source_date)}</div></td>
+            <td><span class="badge bg-primary">${esc(item.product_code)}</span><div class="small text-muted">${esc(item.description)}</div></td>
             <td>${item.type === 'defect' ? '<span class="badge bg-danger">Lỗi</span>' : '<span class="badge bg-success">HT</span>'}</td>
             <td class="text-end fw-semibold">${fmtQty(item.qty_remaining)}</td>
             <td>
@@ -220,12 +229,12 @@ document.querySelectorAll('.btn-detail').forEach(btn => {
             .then(r => r.json())
             .then(data => {
                 if (!data.ok) return alert(data.msg);
-                document.getElementById('exportDetailHeader').innerHTML = `<div class="small"><strong>${data.header.export_no}</strong> · ${data.header.customer_name}<br>Ngày xuất: ${data.header.export_date} · Trạng thái: ${data.header.status}</div>`;
+                document.getElementById('exportDetailHeader').innerHTML = `<div class="small"><strong>${esc(data.header.export_no)}</strong> · ${esc(data.header.customer_name)}<br>Ngày xuất: ${esc(data.header.export_date)} · Trạng thái: ${esc(data.header.status)}</div>`;
                 document.getElementById('exportDetailItems').innerHTML = `<div class="table-responsive"><table class="table table-sm table-bordered align-middle"><thead><tr><th>FGS</th><th>Mã SP</th><th>Loại</th><th class="text-end">SL xuất</th></tr></thead><tbody>${data.items.map(item => `
                     <tr class="${item.type === 'defect' ? 'table-danger' : ''}">
-                        <td>${item.fgs_no}</td>
-                        <td>${item.product_code}</td>
-                        <td>${item.type}</td>
+                        <td>${esc(item.fgs_no)}</td>
+                        <td>${esc(item.product_code)}</td>
+                        <td>${esc(item.type)}</td>
                         <td class="text-end">${fmtQty(item.qty_export)}</td>
                     </tr>`).join('')}</tbody></table></div>`;
                 detailModal.show();

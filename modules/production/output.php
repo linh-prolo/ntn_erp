@@ -271,6 +271,16 @@ function fmtQty(value) {
     return Number(value || 0).toLocaleString('vi-VN', { minimumFractionDigits: 0, maximumFractionDigits: 3 });
 }
 
+function esc(value) {
+    return String(value ?? '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    }[char]));
+}
+
 document.getElementById('btnCreateProgress').addEventListener('click', () => {
     const form = document.getElementById('formCreateProgress');
     if (!form.checkValidity()) { form.reportValidity(); return; }
@@ -283,7 +293,7 @@ document.getElementById('btnCreateProgress').addEventListener('click', () => {
 document.querySelectorAll('.btn-log').forEach(btn => {
     btn.addEventListener('click', () => {
         document.getElementById('logProgressId').value = btn.dataset.id;
-        document.getElementById('logMeta').innerHTML = `<strong>${btn.dataset.no}</strong> · Phiếu ${btn.dataset.receipt} · Mã ${btn.dataset.product}<br>Còn lại hiện tại: <span class="text-warning fw-semibold">${fmtQty(btn.dataset.remaining)}</span>`;
+        document.getElementById('logMeta').innerHTML = `<strong>${esc(btn.dataset.no)}</strong> · Phiếu ${esc(btn.dataset.receipt)} · Mã ${esc(btn.dataset.product)}<br>Còn lại hiện tại: <span class="text-warning fw-semibold">${fmtQty(btn.dataset.remaining)}</span>`;
         modalLog.show();
     });
 });
@@ -307,7 +317,7 @@ document.querySelectorAll('.btn-detail').forEach(btn => {
                 const percent = Number(h.qty_total) > 0 ? Math.min(100, (((Number(h.qty_done) + Number(h.qty_defect)) / Number(h.qty_total)) * 100).toFixed(1)) : 0;
                 document.getElementById('progressDetailHeader').innerHTML = `
                     <div class="row g-2 small">
-                        <div class="col-md-6"><strong>${h.progress_no}</strong> · Phiếu ${h.receipt_no}<br>${h.customer_name} · <span class="badge bg-primary">${h.product_code}</span></div>
+                        <div class="col-md-6"><strong>${esc(h.progress_no)}</strong> · Phiếu ${esc(h.receipt_no)}<br>${esc(h.customer_name)} · <span class="badge bg-primary">${esc(h.product_code)}</span></div>
                         <div class="col-md-6 text-md-end">Tổng NVL: <strong>${fmtQty(h.qty_total)}</strong><br>Tiến độ: <strong>${percent}%</strong> · Còn lại: <strong class="text-warning">${fmtQty(h.qty_remaining)}</strong></div>
                     </div>`;
 
@@ -315,9 +325,9 @@ document.querySelectorAll('.btn-detail').forEach(btn => {
                     <div class="list-group-item">
                         <div class="d-flex justify-content-between align-items-start gap-2">
                             <div>
-                                <div class="fw-semibold">${log.log_date}</div>
+                                <div class="fw-semibold">${esc(log.log_date)}</div>
                                 <div class="small text-success">HT: ${fmtQty(log.qty_done)} · Lỗi: ${fmtQty(log.qty_defect)}</div>
-                                <div class="small text-muted">${log.note || '—'}</div>
+                                <div class="small text-muted">${esc(log.note || '—')}</div>
                             </div>
                             ${canDeleteLogs && index === 0 ? `<button class="btn btn-sm btn-outline-danger btn-delete-log" data-id="${log.id}"><i class="fas fa-trash"></i></button>` : ''}
                         </div>
@@ -325,10 +335,10 @@ document.querySelectorAll('.btn-detail').forEach(btn => {
 
                 document.getElementById('progressFgs').innerHTML = data.fgs.length ? `<div class="table-responsive"><table class="table table-sm table-bordered align-middle"><thead><tr><th>FGS</th><th>Loại</th><th class="text-end">SL</th><th>Trạng thái</th></tr></thead><tbody>${data.fgs.map(item => `
                     <tr class="${item.type === 'defect' ? 'table-danger' : ''}">
-                        <td>${item.fgs_no}<div class="small text-muted">${item.source_date}</div></td>
+                        <td>${esc(item.fgs_no)}<div class="small text-muted">${esc(item.source_date)}</div></td>
                         <td>${item.type === 'defect' ? '<span class="badge bg-danger">Lỗi</span>' : '<span class="badge bg-success">HT</span>'}</td>
                         <td class="text-end">${fmtQty(item.qty_in)}</td>
-                        <td>${item.status}</td>
+                        <td>${esc(item.status)}</td>
                     </tr>`).join('')}</tbody></table></div>` : '<div class="text-muted small">Chưa phát sinh kho TP.</div>';
 
                 document.querySelectorAll('.btn-delete-log').forEach(deleteBtn => {
