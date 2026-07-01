@@ -65,8 +65,8 @@ function generateCSRF() {
 }
 
 function verifyCSRF($token) {
+    // Không xoá token sau khi verify để cho phép nhiều request/modal dùng chung trong 1 trang
     if (isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token)) {
-        unset($_SESSION['csrf_token']); // regenerate on next generateCSRF()
         return true;
     }
     return false;
@@ -133,6 +133,35 @@ function ensurePostCsrf(): void {
     if (!verifyCSRF($_POST['csrf_token'] ?? '')) {
         http_response_code(403);
         die('CSRF token không hợp lệ. Vui lòng tải lại trang.');
+    }
+}
+
+function generateDocNo(PDO $pdo, string $type): string {
+    $today = date('Y-m-d');
+    $pdo->beginTransaction();
+    try {
+        $stmt = $pdo->prepare("
+            INSERT INTO document_sequences (doc_type, doc_date, last_seq)
+            VALUES (?, ?, 1)
+            ON DUPLICATE KEY UPDATE last_seq = last_seq + 1
+        ");
+        $stmt->execute([$type, $today]);
+
+        $stmt = $pdo->prepare("
+            SELECT last_seq
+            FROM document_sequences
+            WHERE doc_type = ? AND doc_date = ?
+        ");
+        $stmt->execute([$type, $today]);
+        $seq = (int) $stmt->fetchColumn();
+
+        $pdo->commit();
+        return $type . '-' . date('Ymd') . '-' . str_pad((string) $seq, 3, '0', STR_PAD_LEFT);
+    } catch (Throwable $e) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        throw $e;
     }
 }
 

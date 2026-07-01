@@ -3,7 +3,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/erp/config/database.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/erp/config/auth.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/erp/config/functions.php';
 requireLogin();
-requireRole('director', 'accountant', 'manager', 'warehouse', 'production', 'employee');
+requireRole('director', 'accountant', 'manager');
 
 $pdo = getDBConnection();
 $user = currentUser();
@@ -20,7 +20,7 @@ $filterMonth = preg_match('/^\d{4}-\d{2}$/', $_GET['month'] ?? '') ? $_GET['mont
 $filterCategory = (int)($_GET['category_id'] ?? 0);
 $filterStatus = trim($_GET['status'] ?? '');
 $allowedTabs = ['mine', 'pending', 'history'];
-$activeTab = in_array($_GET['tab'] ?? 'mine', $allowedTabs, true) ? (string)$_GET['tab'] : 'mine';
+$activeTab = in_array($_GET['tab'] ?? 'mine', $allowedTabs, true) ? (string)($_GET['tab'] ?? 'mine') : 'mine';
 if ($activeTab === 'pending' && !$canApprove) {
     $activeTab = 'mine';
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 30, 2026 lúc 12:23 PM
+-- Thời gian đã tạo: Th6 30, 2026 lúc 05:48 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Cơ sở dữ liệu: `ntn_erp`
+-- Cơ sở dữ liệu: `ntnnew`
 --
 
 -- --------------------------------------------------------
@@ -38,23 +38,6 @@ CREATE TABLE `admin_budgets` (
   `created_at` datetime DEFAULT current_timestamp(),
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `admin_budgets`
---
-
-INSERT INTO `admin_budgets` (`id`, `budget_year`, `budget_month`, `category_id`, `budget_amount`, `note`, `created_by`, `created_at`, `updated_at`) VALUES
-(1, 2026, 6, 6, 500000.00, NULL, 18, '2026-06-29 22:57:17', '2026-06-29 22:57:17'),
-(2, 2026, 6, 4, 0.00, NULL, 18, '2026-06-29 22:57:17', '2026-06-29 22:57:17'),
-(3, 2026, 6, 3, 0.00, NULL, 18, '2026-06-29 22:57:17', '2026-06-29 22:57:17'),
-(4, 2026, 6, 11, 0.00, NULL, 18, '2026-06-29 22:57:17', '2026-06-29 22:57:17'),
-(5, 2026, 6, 9, 0.00, NULL, 18, '2026-06-29 22:57:17', '2026-06-29 22:57:17'),
-(6, 2026, 6, 10, 0.00, NULL, 18, '2026-06-29 22:57:17', '2026-06-29 22:57:17'),
-(7, 2026, 6, 5, 0.00, NULL, 18, '2026-06-29 22:57:17', '2026-06-29 22:57:17'),
-(8, 2026, 6, 1, 0.00, NULL, 18, '2026-06-29 22:57:17', '2026-06-29 22:57:17'),
-(9, 2026, 6, 2, 0.00, NULL, 18, '2026-06-29 22:57:17', '2026-06-29 22:57:17'),
-(10, 2026, 6, 7, 300000.00, NULL, 18, '2026-06-29 22:57:17', '2026-06-29 22:57:17'),
-(11, 2026, 6, 8, 0.00, NULL, 18, '2026-06-29 22:57:17', '2026-06-29 22:57:17');
 
 -- --------------------------------------------------------
 
@@ -133,6 +116,13 @@ CREATE TABLE `attendance_location_settings` (
   `updated_by` int(11) DEFAULT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `attendance_location_settings`
+--
+
+INSERT INTO `attendance_location_settings` (`id`, `location_name`, `latitude`, `longitude`, `radius_meters`, `is_enabled`, `updated_by`, `updated_at`) VALUES
+(1, 'Công ty', 10.78158284, 106.69953987, 200, 1, 18, '2026-06-30 16:14:20');
 
 -- --------------------------------------------------------
 
@@ -610,7 +600,9 @@ CREATE TABLE `customer_prices` (
 
 INSERT INTO `customer_prices` (`id`, `customer_id`, `product_code_id`, `unit_price`, `effective_date`, `expired_date`, `note`, `is_active`, `created_at`, `updated_at`) VALUES
 (2, 1, 4, 3690.00, '2026-06-28', NULL, NULL, 1, '2026-06-29 00:20:40', '2026-06-29 00:20:40'),
-(3, 2, 5, 10000.00, '2026-06-30', NULL, NULL, 1, '2026-06-30 12:06:17', '2026-06-30 12:06:17');
+(3, 2, 5, 10000.00, '2026-06-30', NULL, NULL, 1, '2026-06-30 12:06:17', '2026-06-30 12:06:17'),
+(4, 1, 6, 3690.00, '2026-06-30', NULL, NULL, 1, '2026-06-30 23:08:32', '2026-06-30 23:08:32'),
+(5, 1, 7, 111.00, '2026-06-30', NULL, NULL, 1, '2026-06-30 23:08:46', '2026-06-30 23:08:46');
 
 -- --------------------------------------------------------
 
@@ -688,22 +680,13 @@ CREATE TABLE `deliveries` (
   `delivery_date` date NOT NULL,
   `customer_id` int(11) NOT NULL,
   `warehouse_out_id` int(11) DEFAULT NULL,
+  `export_id` int(11) DEFAULT NULL,
   `total_amount` decimal(15,2) DEFAULT 0.00,
   `note` text DEFAULT NULL,
   `status` enum('draft','confirmed','invoiced') DEFAULT 'draft',
   `created_by` int(11) DEFAULT NULL,
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `deliveries`
---
-
-INSERT INTO `deliveries` (`id`, `delivery_no`, `delivery_date`, `customer_id`, `warehouse_out_id`, `total_amount`, `note`, `status`, `created_by`, `created_at`) VALUES
-(1, 'DL-20260628-001', '2026-06-28', 1, 1, 0.00, NULL, 'confirmed', 2, '2026-06-28 22:56:03'),
-(2, 'DL-20260628-002', '2026-06-28', 1, 1, 0.00, NULL, 'confirmed', 2, '2026-06-28 23:20:43'),
-(3, 'DL-20260628-003', '2026-06-28', 1, 1, 0.00, NULL, 'confirmed', 2, '2026-06-29 00:25:20'),
-(6, 'DL-20260630-003', '2026-06-30', 1, NULL, 0.00, NULL, 'confirmed', 18, '2026-06-30 12:57:10');
 
 -- --------------------------------------------------------
 
@@ -715,21 +698,12 @@ CREATE TABLE `delivery_items` (
   `id` int(11) NOT NULL,
   `delivery_id` int(11) NOT NULL,
   `product_code_id` int(11) NOT NULL,
+  `export_item_id` int(11) DEFAULT NULL,
   `quantity` decimal(15,3) NOT NULL DEFAULT 0.000,
   `unit_price` decimal(15,2) DEFAULT 0.00,
   `total_price` decimal(15,2) DEFAULT 0.00,
   `note` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `delivery_items`
---
-
-INSERT INTO `delivery_items` (`id`, `delivery_id`, `product_code_id`, `quantity`, `unit_price`, `total_price`, `note`) VALUES
-(1, 1, 2, 100.000, 0.00, 0.00, NULL),
-(2, 2, 2, 100.000, 0.00, 0.00, NULL),
-(3, 3, 2, 100.000, 0.00, 0.00, NULL),
-(6, 6, 4, 50.000, 0.00, 0.00, NULL);
 
 -- --------------------------------------------------------
 
@@ -757,13 +731,6 @@ CREATE TABLE `delivery_notes` (
   `receiver_phone` varchar(20) DEFAULT NULL COMMENT 'SĐT người nhận'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Đang đổ dữ liệu cho bảng `delivery_notes`
---
-
-INSERT INTO `delivery_notes` (`id`, `delivery_no`, `delivery_date`, `sender_name`, `sender_phone`, `vehicle_plate`, `driver_name`, `driver_phone`, `customer_id`, `total_amount`, `status`, `note`, `created_by`, `created_at`, `updated_at`, `receiver_name`, `receiver_phone`) VALUES
-(7, 'DN-20260311-0001', '2026-03-11', NULL, NULL, NULL, NULL, NULL, 1, 0, 'confirmed', '', 1, '2026-03-11 15:07:34', '2026-03-11 15:07:34', NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -782,13 +749,6 @@ CREATE TABLE `delivery_note_items` (
   `total_price` decimal(15,0) NOT NULL DEFAULT 0,
   `note` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Đang đổ dữ liệu cho bảng `delivery_note_items`
---
-
-INSERT INTO `delivery_note_items` (`id`, `delivery_note_id`, `production_output_id`, `product_code_id`, `description`, `unit`, `quantity`, `unit_price`, `total_price`, `note`) VALUES
-(7, 7, 5, 1, 'hàng ốc vít', 'cái', 5000.00, 0, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -838,26 +798,6 @@ CREATE TABLE `document_sequences` (
   `doc_date` date NOT NULL,
   `last_seq` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Đang đổ dữ liệu cho bảng `document_sequences`
---
-
-INSERT INTO `document_sequences` (`id`, `doc_type`, `doc_date`, `last_seq`) VALUES
-(1, 'WH', '2026-03-10', 1),
-(6, 'SX', '2026-03-10', 2),
-(10, 'OUT', '2026-03-10', 3),
-(17, 'GH', '2026-03-10', 1),
-(18, 'SX', '2026-03-11', 1),
-(19, 'OUT', '2026-03-11', 1),
-(20, 'GH', '2026-03-11', 1),
-(21, 'WH', '2026-03-11', 1),
-(23, 'WI', '2026-06-28', 1),
-(24, 'WO', '2026-06-28', 1),
-(25, 'DL', '2026-06-28', 3),
-(29, 'WI', '2026-06-30', 2),
-(30, 'WO', '2026-06-30', 2),
-(31, 'DL', '2026-06-30', 3);
 
 -- --------------------------------------------------------
 
@@ -1204,12 +1144,29 @@ CREATE TABLE `expense_requests` (
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
 --
--- Đang đổ dữ liệu cho bảng `expense_requests`
+-- Cấu trúc bảng cho bảng `finished_goods_stock`
 --
 
-INSERT INTO `expense_requests` (`id`, `request_no`, `category_id`, `amount`, `expense_date`, `purpose`, `has_invoice`, `invoice_no`, `invoice_date`, `invoice_company`, `payment_method`, `status`, `requested_by`, `approved_by`, `approved_at`, `reject_reason`, `note`, `created_at`, `updated_at`) VALUES
-(1, 'EXP-20260629-001', 7, 5000000.00, '2026-06-29', 'sử dụng', 0, NULL, NULL, NULL, 'cash', 'approved', 18, 18, '2026-06-29 22:58:01', NULL, NULL, '2026-06-29 22:57:53', '2026-06-29 22:58:01');
+CREATE TABLE `finished_goods_stock` (
+  `id` int(11) NOT NULL,
+  `fgs_no` varchar(30) NOT NULL,
+  `progress_id` int(11) NOT NULL,
+  `progress_log_id` int(11) DEFAULT NULL,
+  `product_code_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `type` enum('normal','defect') NOT NULL DEFAULT 'normal',
+  `qty_in` decimal(15,3) NOT NULL DEFAULT 0.000,
+  `qty_exported` decimal(15,3) NOT NULL DEFAULT 0.000,
+  `qty_remaining` decimal(15,3) NOT NULL DEFAULT 0.000,
+  `status` enum('pending_export','partial_export','exported','delivered') NOT NULL DEFAULT 'pending_export',
+  `source_date` date NOT NULL,
+  `note` text DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -1286,14 +1243,6 @@ CREATE TABLE `invoices` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Đang đổ dữ liệu cho bảng `invoices`
---
-
-INSERT INTO `invoices` (`id`, `invoice_no`, `invoice_date`, `due_date`, `customer_id`, `total_amount`, `subtotal`, `vat_rate`, `vat_amount`, `note`, `delivery_id`, `status`, `created_by`, `confirmed_by`, `confirmed_at`, `created_at`, `updated_at`) VALUES
-(28, 'INV-DRAFT-3', NULL, NULL, 1, 0, 0, 0.00, 0, 'Tự động tạo từ phiếu giao hàng', 3, 'draft', 18, NULL, NULL, '2026-06-30 05:53:41', '2026-06-30 05:53:41'),
-(29, 'INV-DRAFT-6', NULL, NULL, 1, 184500, 184500, 0.00, 0, 'Tự động tạo từ phiếu giao hàng', 6, 'draft', 18, NULL, NULL, '2026-06-30 05:57:12', '2026-06-30 05:57:12');
-
 -- --------------------------------------------------------
 
 --
@@ -1351,14 +1300,6 @@ CREATE TABLE `invoice_items` (
   `total_price` decimal(10,2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Đang đổ dữ liệu cho bảng `invoice_items`
---
-
-INSERT INTO `invoice_items` (`id`, `invoice_id`, `delivery_note_id`, `delivery_note_item_id`, `product_code_id`, `description`, `unit`, `quantity`, `unit_price`, `total_price`) VALUES
-(8, 28, 0, 0, 2, 'Phí gia công mài phun cát cho sản phẩm nhôm mã 122987', 'cái', 100.00, 0, 0.00),
-(9, 29, 0, 0, 4, 'PHÍ DỊCH VỤ GIAO NHẬN HÀNG HOÁ', 'chiếc', 50.00, 3690, 184500.00);
-
 -- --------------------------------------------------------
 
 --
@@ -1379,13 +1320,6 @@ CREATE TABLE `inv_exports` (
   `created_by` int(11) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `inv_exports`
---
-
-INSERT INTO `inv_exports` (`id`, `export_no`, `item_id`, `export_date`, `quantity`, `purpose`, `department`, `requested_by_name`, `approved_by`, `note`, `created_by`, `created_at`) VALUES
-(1, 'EXP-20260630-001', 1, '2026-06-30', 400.00, 'bán hàng', NULL, NULL, NULL, NULL, 18, '2026-06-29 17:12:08');
 
 -- --------------------------------------------------------
 
@@ -1410,13 +1344,6 @@ CREATE TABLE `inv_imports` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Đang đổ dữ liệu cho bảng `inv_imports`
---
-
-INSERT INTO `inv_imports` (`id`, `import_no`, `item_id`, `import_date`, `quantity`, `unit_price`, `vat_percent`, `invoice_no`, `supplier`, `payment_status`, `note`, `created_by`, `created_at`) VALUES
-(1, 'IMP-20260629-001', 1, '2026-06-29', 500.00, 10000.00, 8.00, '321', 'bán hoá chất', 'unpaid', NULL, 18, '2026-06-29 17:11:24');
-
 -- --------------------------------------------------------
 
 --
@@ -1436,13 +1363,6 @@ CREATE TABLE `inv_items` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Đang đổ dữ liệu cho bảng `inv_items`
---
-
-INSERT INTO `inv_items` (`id`, `item_code`, `item_name`, `category`, `unit`, `min_stock`, `description`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 'N20', 'Hoá Chất N2O', 'consumable', 'Lit', 100.00, NULL, 1, '2026-06-29 17:10:54', '2026-06-29 17:10:54');
-
 -- --------------------------------------------------------
 
 --
@@ -1459,19 +1379,6 @@ CREATE TABLE `kpi_assignments` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `over_bonus_pct` decimal(5,2) NOT NULL DEFAULT 0.00 COMMENT '% thưởng cho mỗi % vượt KPI (vd: 50 = mỗi 1% vượt được thưởng 0.5% lương ngày)'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `kpi_assignments`
---
-
-INSERT INTO `kpi_assignments` (`id`, `assign_date`, `user_id`, `manager_id`, `kpi_target`, `created_at`, `updated_at`, `over_bonus_pct`) VALUES
-(7, '2026-03-11', 6, 4, 600, '2026-03-11 13:16:43', '2026-03-11 13:16:43', 0.00),
-(8, '2026-03-11', 8, 4, 600, '2026-03-11 13:16:43', '2026-03-11 13:16:43', 0.00),
-(9, '2026-03-11', 7, 4, 500, '2026-03-11 13:16:43', '2026-03-11 13:16:43', 0.00),
-(10, '2026-03-18', 6, 1, 400, '2026-03-18 09:21:41', '2026-03-18 09:21:41', 0.00),
-(11, '2026-04-29', 6, 1, 200, '2026-04-29 07:36:24', '2026-04-29 07:36:24', 0.00),
-(12, '2026-05-04', 9, 1, 600, '2026-05-04 03:45:57', '2026-05-04 03:45:57', 0.00),
-(13, '2026-05-04', 5, 1, 600, '2026-05-04 03:48:00', '2026-05-04 03:48:00', 0.00);
 
 -- --------------------------------------------------------
 
@@ -1492,19 +1399,6 @@ CREATE TABLE `kpi_results` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `kpi_results`
---
-
-INSERT INTO `kpi_results` (`id`, `kpi_assignment_id`, `actual_qty`, `salary_per_day`, `salary_actual`, `is_deducted`, `reason`, `confirmed_by`, `confirmed_at`, `created_at`, `updated_at`) VALUES
-(32, 7, 650, 232308, 251667, 0, '', 1, '2026-03-11 15:46:04', '2026-03-11 13:17:34', '2026-03-11 15:46:04'),
-(33, 8, 750, 192308, 240385, 0, '', 1, '2026-03-11 15:46:08', '2026-03-11 13:17:34', '2026-03-11 15:46:08'),
-(34, 9, 250, 463077, 231539, 1, '', 1, '2026-03-11 15:46:12', '2026-03-11 13:17:34', '2026-03-11 15:46:12'),
-(35, 10, 0, 232308, 232308, 0, '', 1, '2026-03-18 09:21:57', '2026-03-18 09:21:57', '2026-03-18 09:21:57'),
-(36, 11, 300, 232308, 232308, 0, '', 1, '2026-04-29 07:36:38', '2026-04-29 07:36:38', '2026-04-29 07:36:38'),
-(40, 12, 0, 249231, 249231, 0, '', 1, '2026-05-27 08:40:46', '2026-05-27 08:40:46', '2026-05-27 08:40:46'),
-(41, 13, 0, 249231, 249231, 0, '', 1, '2026-05-27 08:40:46', '2026-05-27 08:40:46', '2026-05-27 08:40:46');
 
 -- --------------------------------------------------------
 
@@ -2611,12 +2505,45 @@ CREATE TABLE `production_outputs` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Đang đổ dữ liệu cho bảng `production_outputs`
+-- Cấu trúc bảng cho bảng `production_progress`
 --
 
-INSERT INTO `production_outputs` (`id`, `output_no`, `output_date`, `production_receipt_id`, `product_code_id`, `description`, `quantity_completed`, `quantity_defect`, `quantity_delivered`, `note`, `created_by`, `created_at`, `updated_at`) VALUES
-(5, 'OUT-20260311-001', '2026-03-11', 6, 1, NULL, 50000.00, 0.00, 5000.00, '', 1, '2026-03-11 15:07:17', '2026-03-11 15:07:34');
+CREATE TABLE `production_progress` (
+  `id` int(11) NOT NULL,
+  `progress_no` varchar(30) NOT NULL,
+  `warehouse_in_id` int(11) NOT NULL,
+  `product_code_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `qty_total` decimal(15,3) NOT NULL DEFAULT 0.000,
+  `qty_done` decimal(15,3) NOT NULL DEFAULT 0.000,
+  `qty_defect` decimal(15,3) NOT NULL DEFAULT 0.000,
+  `qty_remaining` decimal(15,3) NOT NULL DEFAULT 0.000,
+  `status` enum('in_progress','completed') NOT NULL DEFAULT 'in_progress',
+  `note` text DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `production_progress_logs`
+--
+
+CREATE TABLE `production_progress_logs` (
+  `id` int(11) NOT NULL,
+  `progress_id` int(11) NOT NULL,
+  `log_date` date NOT NULL,
+  `qty_done` decimal(15,3) NOT NULL DEFAULT 0.000,
+  `qty_defect` decimal(15,3) NOT NULL DEFAULT 0.000,
+  `note` text DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -2637,13 +2564,6 @@ CREATE TABLE `production_receipts` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Đang đổ dữ liệu cho bảng `production_receipts`
---
-
-INSERT INTO `production_receipts` (`id`, `receipt_no`, `receipt_date`, `warehouse_import_id`, `product_code_id`, `description`, `quantity_received`, `note`, `created_by`, `created_at`, `updated_at`) VALUES
-(6, 'PR-20260311-0001', '2026-03-11', 4, 1, NULL, 50000.00, '', 1, '2026-03-11 15:03:09', '2026-03-11 15:03:09');
 
 -- --------------------------------------------------------
 
@@ -2696,7 +2616,9 @@ INSERT INTO `product_codes` (`id`, `product_code`, `product_category`, `descript
 (2, '122987', 'finished_goods', 'Phí gia công mài phun cát cho sản phẩm nhôm mã 122987', 'cái', 'Thành Phẩm', 1, 2, '2026-04-29 07:20:40', '2026-04-29 07:21:14'),
 (3, '122988', 'finished_goods', 'Phí gia công mài phun cát cho sản phẩm nhôm mã 122988', 'cái', 'Thành Phẩm', 1, 2, '2026-04-29 07:21:05', '2026-04-29 07:21:10'),
 (4, 'SP-01', 'finished_goods', 'PHÍ DỊCH VỤ GIAO NHẬN HÀNG HOÁ', 'chiếc', NULL, 1, 2, '2026-06-28 17:20:40', '2026-06-28 17:20:40'),
-(5, '12938', 'finished_goods', 'Phun Mài', 'Cái', NULL, 1, 18, '2026-06-30 05:06:17', '2026-06-30 05:06:17');
+(5, '12938', 'finished_goods', 'Phun Mài', 'Cái', NULL, 1, 18, '2026-06-30 05:06:17', '2026-06-30 05:06:17'),
+(6, '1', 'finished_goods', 'CHEMICAL TRANSPORTATION LICENSE', 'chiếc', NULL, 1, 18, '2026-06-30 16:08:32', '2026-06-30 16:08:32'),
+(7, 'SP-0111', 'finished_goods', 'Phí Dịch Vụ Giao Nhận Hàng Hoá', 'chiếc', NULL, 1, 18, '2026-06-30 16:08:46', '2026-06-30 16:08:46');
 
 -- --------------------------------------------------------
 
@@ -2883,6 +2805,40 @@ CREATE TABLE `shift_schedules` (
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `stock_exports`
+--
+
+CREATE TABLE `stock_exports` (
+  `id` int(11) NOT NULL,
+  `export_no` varchar(30) NOT NULL,
+  `export_date` date NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `status` enum('draft','confirmed') NOT NULL DEFAULT 'draft',
+  `note` text DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
+  `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `stock_export_items`
+--
+
+CREATE TABLE `stock_export_items` (
+  `id` int(11) NOT NULL,
+  `export_id` int(11) NOT NULL,
+  `fgs_id` int(11) NOT NULL,
+  `product_code_id` int(11) NOT NULL,
+  `qty_export` decimal(15,3) NOT NULL DEFAULT 0.000,
+  `note` varchar(255) DEFAULT NULL,
+  `delivery_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `users`
 --
 
@@ -3057,15 +3013,6 @@ CREATE TABLE `warehouse_in` (
   `created_at` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Đang đổ dữ liệu cho bảng `warehouse_in`
---
-
-INSERT INTO `warehouse_in` (`id`, `receipt_no`, `receipt_date`, `customer_id`, `note`, `status`, `created_by`, `created_at`) VALUES
-(1, 'WI-20260628-001', '2026-06-28', 1, NULL, 'done', 2, '2026-06-28 22:54:48'),
-(2, 'WI-20260630-001', '2026-06-30', 2, NULL, 'done', 18, '2026-06-30 12:07:48'),
-(3, 'WI-20260630-002', '2026-06-30', 1, NULL, 'done', 18, '2026-06-30 12:19:58');
-
 -- --------------------------------------------------------
 
 --
@@ -3079,15 +3026,6 @@ CREATE TABLE `warehouse_in_items` (
   `quantity` decimal(15,3) NOT NULL DEFAULT 0.000,
   `note` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `warehouse_in_items`
---
-
-INSERT INTO `warehouse_in_items` (`id`, `warehouse_in_id`, `product_code_id`, `quantity`, `note`) VALUES
-(1, 1, 2, 100.000, NULL),
-(2, 2, 5, 10000.000, NULL),
-(3, 3, 4, 50.000, NULL);
 
 -- --------------------------------------------------------
 
@@ -3113,9 +3051,10 @@ CREATE TABLE `warehouse_items` (
 --
 
 INSERT INTO `warehouse_items` (`id`, `warehouse_in_id`, `wo_process_id`, `product_code_id`, `customer_id`, `quantity`, `quantity_delivered`, `status`, `note`, `created_at`) VALUES
-(1, 1, 1, 2, 1, 100.000, 100.000, 'done', NULL, '2026-06-28 22:55:18'),
-(2, 2, 2, 5, 2, 5000.000, 5000.000, 'delivered', NULL, '2026-06-30 12:08:05'),
-(3, 3, 3, 4, 1, 50.000, 50.000, 'delivered', NULL, '2026-06-30 12:20:11');
+(1, NULL, NULL, 2, 1, 100.000, 100.000, 'done', NULL, '2026-06-28 22:55:18'),
+(2, NULL, NULL, 5, 2, 5000.000, 5000.000, 'delivered', NULL, '2026-06-30 12:08:05'),
+(3, NULL, NULL, 4, 1, 50.000, 50.000, 'delivered', NULL, '2026-06-30 12:20:11'),
+(4, NULL, NULL, 4, 1, 1000.000, 0.000, 'waiting', NULL, '2026-06-30 22:31:57');
 
 -- --------------------------------------------------------
 
@@ -3139,9 +3078,7 @@ CREATE TABLE `warehouse_out` (
 --
 
 INSERT INTO `warehouse_out` (`id`, `export_no`, `export_date`, `customer_id`, `note`, `status`, `created_by`, `created_at`) VALUES
-(1, 'WO-20260628-001', '2026-06-28', 1, NULL, 'confirmed', 2, '2026-06-28 22:55:41'),
-(2, 'WO-20260630-001', '2026-06-30', 2, NULL, 'confirmed', 18, '2026-06-30 12:08:43'),
-(3, 'WO-20260630-002', '2026-06-30', 1, NULL, 'confirmed', 18, '2026-06-30 12:20:23');
+(1, 'WO-20260628-001', '2026-06-28', 1, NULL, 'confirmed', 2, '2026-06-28 22:55:41');
 
 -- --------------------------------------------------------
 
@@ -3163,9 +3100,7 @@ CREATE TABLE `warehouse_out_items` (
 --
 
 INSERT INTO `warehouse_out_items` (`id`, `warehouse_out_id`, `warehouse_item_id`, `product_code_id`, `quantity`, `note`) VALUES
-(1, 1, 1, 2, 100.000, NULL),
-(2, 2, 2, 5, 5000.000, NULL),
-(3, 3, 3, 4, 50.000, NULL);
+(1, 1, 1, 2, 100.000, NULL);
 
 -- --------------------------------------------------------
 
@@ -3280,15 +3215,6 @@ CREATE TABLE `wo_processes` (
   `updated_by` int(11) DEFAULT NULL,
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Đang đổ dữ liệu cho bảng `wo_processes`
---
-
-INSERT INTO `wo_processes` (`id`, `warehouse_in_id`, `warehouse_in_item_id`, `product_code_id`, `quantity_input`, `quantity_done`, `quantity_rejected`, `status`, `process_date`, `note`, `updated_by`, `updated_at`) VALUES
-(1, 1, 1, 2, 100.000, 100.000, 0.000, 'done', '2026-06-28', NULL, 2, '2026-06-28 22:57:03'),
-(2, 2, 2, 5, 10000.000, 10000.000, 0.000, 'done', '2026-06-30', NULL, 18, '2026-06-30 12:13:42'),
-(3, 3, 3, 4, 50.000, 50.000, 0.000, 'done', '2026-06-30', NULL, 18, '2026-06-30 12:20:11');
 
 -- --------------------------------------------------------
 
@@ -3439,7 +3365,8 @@ ALTER TABLE `deliveries`
   ADD UNIQUE KEY `delivery_no` (`delivery_no`),
   ADD KEY `fk_dl_customer` (`customer_id`),
   ADD KEY `fk_dl_wo` (`warehouse_out_id`),
-  ADD KEY `fk_dl_user` (`created_by`);
+  ADD KEY `fk_dl_user` (`created_by`),
+  ADD KEY `fk_deliveries_export` (`export_id`);
 
 --
 -- Chỉ mục cho bảng `delivery_items`
@@ -3447,7 +3374,8 @@ ALTER TABLE `deliveries`
 ALTER TABLE `delivery_items`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_dli_dl` (`delivery_id`),
-  ADD KEY `fk_dli_pc` (`product_code_id`);
+  ADD KEY `fk_dli_pc` (`product_code_id`),
+  ADD KEY `fk_delivery_items_export_item` (`export_item_id`);
 
 --
 -- Chỉ mục cho bảng `delivery_notes`
@@ -3544,6 +3472,17 @@ ALTER TABLE `expense_requests`
   ADD UNIQUE KEY `request_no` (`request_no`),
   ADD KEY `fk_er_category` (`category_id`),
   ADD KEY `fk_er_requested_by` (`requested_by`);
+
+--
+-- Chỉ mục cho bảng `finished_goods_stock`
+--
+ALTER TABLE `finished_goods_stock`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `fgs_no` (`fgs_no`),
+  ADD KEY `idx_fgs_progress` (`progress_id`),
+  ADD KEY `idx_fgs_customer` (`customer_id`),
+  ADD KEY `idx_fgs_product` (`product_code_id`),
+  ADD KEY `idx_fgs_status` (`status`);
 
 --
 -- Chỉ mục cho bảng `holidays`
@@ -3687,6 +3626,24 @@ ALTER TABLE `production_outputs`
   ADD KEY `product_code_id` (`product_code_id`);
 
 --
+-- Chỉ mục cho bảng `production_progress`
+--
+ALTER TABLE `production_progress`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `progress_no` (`progress_no`),
+  ADD KEY `idx_progress_warehouse_in` (`warehouse_in_id`),
+  ADD KEY `idx_progress_customer` (`customer_id`),
+  ADD KEY `idx_progress_product` (`product_code_id`);
+
+--
+-- Chỉ mục cho bảng `production_progress_logs`
+--
+ALTER TABLE `production_progress_logs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_progress_logs_progress` (`progress_id`),
+  ADD KEY `idx_progress_logs_date` (`log_date`);
+
+--
 -- Chỉ mục cho bảng `production_receipts`
 --
 ALTER TABLE `production_receipts`
@@ -3745,6 +3702,24 @@ ALTER TABLE `shift_schedules`
   ADD UNIQUE KEY `unique_schedule` (`user_id`,`work_date`),
   ADD KEY `shift_id` (`shift_id`),
   ADD KEY `created_by` (`created_by`);
+
+--
+-- Chỉ mục cho bảng `stock_exports`
+--
+ALTER TABLE `stock_exports`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `export_no` (`export_no`),
+  ADD KEY `idx_stock_exports_customer` (`customer_id`),
+  ADD KEY `idx_stock_exports_status` (`status`);
+
+--
+-- Chỉ mục cho bảng `stock_export_items`
+--
+ALTER TABLE `stock_export_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_stock_export_items_export` (`export_id`),
+  ADD KEY `idx_stock_export_items_fgs` (`fgs_id`),
+  ADD KEY `idx_stock_export_items_delivery` (`delivery_id`);
 
 --
 -- Chỉ mục cho bảng `users`
@@ -3901,7 +3876,7 @@ ALTER TABLE `attendance_audit_logs`
 -- AUTO_INCREMENT cho bảng `attendance_location_settings`
 --
 ALTER TABLE `attendance_location_settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT cho bảng `attendance_logs`
@@ -3949,7 +3924,7 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT cho bảng `customer_prices`
 --
 ALTER TABLE `customer_prices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT cho bảng `day_close_log`
@@ -3973,13 +3948,13 @@ ALTER TABLE `debt_tracking`
 -- AUTO_INCREMENT cho bảng `deliveries`
 --
 ALTER TABLE `deliveries`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `delivery_items`
 --
 ALTER TABLE `delivery_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT cho bảng `delivery_notes`
@@ -4003,7 +3978,7 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT cho bảng `document_sequences`
 --
 ALTER TABLE `document_sequences`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT cho bảng `employee_profiles`
@@ -4046,6 +4021,12 @@ ALTER TABLE `expense_payments`
 --
 ALTER TABLE `expense_requests`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT cho bảng `finished_goods_stock`
+--
+ALTER TABLE `finished_goods_stock`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT cho bảng `holidays`
@@ -4144,6 +4125,18 @@ ALTER TABLE `production_outputs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT cho bảng `production_progress`
+--
+ALTER TABLE `production_progress`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT cho bảng `production_progress_logs`
+--
+ALTER TABLE `production_progress_logs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT cho bảng `production_receipts`
 --
 ALTER TABLE `production_receipts`
@@ -4159,7 +4152,7 @@ ALTER TABLE `production_stock`
 -- AUTO_INCREMENT cho bảng `product_codes`
 --
 ALTER TABLE `product_codes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `product_prices`
@@ -4184,6 +4177,18 @@ ALTER TABLE `salary_components`
 --
 ALTER TABLE `shift_schedules`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT cho bảng `stock_exports`
+--
+ALTER TABLE `stock_exports`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT cho bảng `stock_export_items`
+--
+ALTER TABLE `stock_export_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT cho bảng `users`
@@ -4225,19 +4230,19 @@ ALTER TABLE `warehouse_imports`
 -- AUTO_INCREMENT cho bảng `warehouse_in`
 --
 ALTER TABLE `warehouse_in`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT cho bảng `warehouse_in_items`
 --
 ALTER TABLE `warehouse_in_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT cho bảng `warehouse_items`
 --
 ALTER TABLE `warehouse_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `warehouse_out`
@@ -4273,7 +4278,7 @@ ALTER TABLE `work_shifts`
 -- AUTO_INCREMENT cho bảng `wo_processes`
 --
 ALTER TABLE `wo_processes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
@@ -4329,6 +4334,7 @@ ALTER TABLE `debt_tracking`
 -- Các ràng buộc cho bảng `deliveries`
 --
 ALTER TABLE `deliveries`
+  ADD CONSTRAINT `fk_deliveries_export` FOREIGN KEY (`export_id`) REFERENCES `stock_exports` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_dl_customer` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`),
   ADD CONSTRAINT `fk_dl_user` FOREIGN KEY (`created_by`) REFERENCES `users` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_dl_wo` FOREIGN KEY (`warehouse_out_id`) REFERENCES `warehouse_out` (`id`) ON DELETE SET NULL;
@@ -4337,6 +4343,7 @@ ALTER TABLE `deliveries`
 -- Các ràng buộc cho bảng `delivery_items`
 --
 ALTER TABLE `delivery_items`
+  ADD CONSTRAINT `fk_delivery_items_export_item` FOREIGN KEY (`export_item_id`) REFERENCES `stock_export_items` (`id`) ON DELETE SET NULL,
   ADD CONSTRAINT `fk_dli_dl` FOREIGN KEY (`delivery_id`) REFERENCES `deliveries` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_dli_pc` FOREIGN KEY (`product_code_id`) REFERENCES `product_codes` (`id`);
 
